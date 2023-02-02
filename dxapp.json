@@ -1,0 +1,60 @@
+{
+    "name": "dnanexus_bigwig_coverage_map_report_v1.0",
+    "title": "dnanexus_bigwig_coverage_map_report_v1.0",
+    "summary": "Create bigwig coverage maps from the stiched/realigned BAMs for TSO runs.",
+    "dxapi": "1.0.0",
+    "inputSpec": [
+        {
+            "name": "input_bam",
+            "label": "Name of input BAM file to create BigWig coverage file from",
+            "help": "Name of input BAM file to create BigWig coverage file from",
+            "class": "string",
+            "optional": false
+        },
+        {
+            "name": "output_directory",
+            "label": "Folder containing Sambamba output",
+            "help": "Folder containing Sambamba output (Default: coverage/raw_output/)",
+            "class": "string",
+            "optional": true,
+            "default": "coverage/raw_output/"
+        }
+    ],
+    "outputSpec": [
+        {
+            "name": "coverage_summary_out",
+            "label": "Uniformity of coverage summary reports",
+            "help": "Uniformity of coverage Summary reports, inteactive html plot, static pdf plot, and csv table",
+            "class": "array:file"
+        }
+    ],
+    "runSpec": {
+        "file": "src/code.sh",
+        "release": "20.04",
+        "version": "0",
+        "interpreter": "bash",
+        "timeoutPolicy": {
+            "*": {
+                "minutes": 60
+            }
+        },
+        "distribution": "Ubuntu"
+    },
+    "access": {
+        "project": "CONTRIBUTE",
+        "allProjects": "VIEW",
+        "network": [
+            "*"
+        ]
+    },
+    "ignoreReuse": false,
+    "regionalOptions": {
+        "aws:us-east-1": {
+            "systemRequirements": {
+                "*": {
+                    "instanceType": "mem1_ssd1_x4"
+                }
+            }
+        }
+    }
+}
