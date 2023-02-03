@@ -32,13 +32,14 @@ main() {
     # Download BAM files.
     dx download "${input_bam}" --auth "${API_KEY}"
 
+    bam_file_name=$(dx describe "${input_bam}" --json | jq .name | tr -d '"')
 
     # Give all users access to docker.sock
     sudo chmod 666 /var/run/docker.sock
 
     # Load docker image from docker hub
 
-    # docker image pull seglh/toolbox@sha256:edc89eb1e2c90461baa44dfb77d05d0ce8fcac5d064ad31500d325145ca07a5a
+    # docker image pull seglh/toolbox@sha256:eef6e84ea6dad93f045e12c868efd71a630bfbe0fed62a91d8d12952177b0304
     docker image pull seglh/toolbox:latest
 
     # Execute the dockerised script - args described below:
@@ -46,7 +47,7 @@ main() {
     # This insures that all the files produced in the docker instance will be saved before the docker instance closes
     # --rm automatically remove the container when it finishes
 
-    docker run -it --rm -v "$(pwd)":/work seglh/toolbox bam2bw ${input_bam}
+    docker run --rm -v "$(pwd)":/work seglh/toolbox bam2bw "${bam_file_name}"
     
     # Upload results to DNA nexus
     dx-upload-all-outputs
