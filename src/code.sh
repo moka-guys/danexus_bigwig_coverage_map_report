@@ -26,13 +26,14 @@ main() {
     API_KEY=$(dx cat project-FQqXfYQ0Z0gqx7XG9Z2b4K43:mokaguys_nexus_auth_key)
 
     # Set the output directory
-    mkdir -p "${output_directory}"
-    cd "${output_directory}"
+    mkdir -p "out"
+    cd "out"
 
     # Download BAM files.
     dx download "${input_bam}" --auth "${API_KEY}"
 
     bam_file_name=$(dx describe "${input_bam}" --json | jq .name | tr -d '"')
+    echo "${bam_file_name}"
 
     # Give all users access to docker.sock
     sudo chmod 666 /var/run/docker.sock
@@ -50,5 +51,11 @@ main() {
     docker run --rm -v "$(pwd)":/work seglh/toolbox bam2bw "${bam_file_name}"
     
     # Upload results to DNA nexus
-    dx-upload-all-outputs
+    
+    output_file=$(dx upload  "${bam_file_name}".bw --brief)
+
+    # This line reports the uploaded file ID under the output field
+    # called "bigwig_file".
+
+    dx-jobutil-add-output bigwig_file "$output_file" --class=file
 }

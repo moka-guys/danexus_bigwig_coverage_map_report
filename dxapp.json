@@ -10,21 +10,13 @@
             "help": "Name of input BAM file to create BigWig coverage file from",
             "class": "file",
             "optional": false
-        },
-        {
-            "name": "output_directory",
-            "label": "Folder to save output files to",
-            "help": "Folder to save output files to",
-            "class": "string",
-            "optional": true,
-            "default": "coverage/raw_output/"
         }
     ],
     "outputSpec": [
         {
             "name": "bigwig_file",
-            "label": "BigWig output file",
-            "help": "BigWig output file",
+            "label": "BigWig file",
+            "help": "BigWig file",
             "class": "file",
             "patterns": [
                 "*.bw"
